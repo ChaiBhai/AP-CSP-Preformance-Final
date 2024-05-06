@@ -1,0 +1,150 @@
+#Takes in variable "showingInstructions"
+#prints out all the instructions before the game quiz game begins
+def instructions(instructPeople):
+  print("This is a quiz game!")
+  print("You will have five lives. Every time you get a question wrong you lose a life")
+  print("Every time you get a question correct then you get a point")
+  print("Your goal is to get every question correct. Good luck! ")
+  print()
+  print("===============================================================")
+  print()
+
+#This code was provided as starter code by my teacher
+#Takes in the the userchoice and the two choices for the quizes avaiable
+#Makes the text uppercase and then makes sure spelling is correct
+#If correct then it returns the player's choice for the quiz
+def validateInput(prompt, choices):
+
+  haveChoice = False
+  choice = ""
+
+  while (haveChoice == False):
+    choice = input(prompt)
+    choice = choice.upper()
+
+    for x in choices:
+      if choice == x:
+        haveChoice = True
+
+  return choice  
+
+#Takes in the quiz and the variable playerLives
+#Creates three new variable
+#Prints the key and the value (string)
+#If the answer is right then you get a point, else you lose a life
+#returns the playerPoints and playerLives to the variable in the main code
+def inputQuestions(quiztype, lives, points):
+  questionNum = 0
+  points = 0
+
+  while ((questionNum < len(quiztype)) and (lives > 0)):
+    print(quiztype["q" + str(questionNum)]["Question"])
+    answer = input("What do you think the answer is? ")
+
+    if answer == quiztype["q" +str(questionNum)]["Answer"]:
+      points += 1
+      print("You have " + str(points) + " points and " + str(lives) + " lives")
+
+      questionNum += 1
+    else:
+      lives -=1
+      print("You have " +  str(lives) + " lives")
+
+  return points, lives
+
+#Takes in the final amount for variables playerLives and finalResult
+#If the playerLives and finalResult meet the requirements then you win, else you lose the game
+def endDecision(points, lives):
+  ending = True
+  while ending:
+    print()
+    print("===============================================================")
+    print()
+    print("You have " + str(points) + " points", "and you had " + str(lives) + " lives")
+    if (points > 3 and lives > 0):
+      print("Congrats you passed the quiz!")
+      ending = False
+    elif (points < 3 or lives < 0):
+      print("Sadly you failed the quiz :( ")
+      ending = False
+
+# MAIN CODE
+playerLives = 5
+playerPoints = 0
+
+hardwareQuiz = {
+  "q0" : { 
+    "Question" : "1. What does HDD stand for? ",
+    "Answer" : "Hard Disk Drive"
+  },
+
+  "q1" : {
+    "Question" : "2. What does CPU stand for? ",
+    "Answer" : "Central Processing Unit"
+  },
+
+  "q2" : {
+    "Question" : "3. What does SSD stand for? ",
+    "Answer" : "Solid State Drive"
+  },
+
+  "q3" : {
+    "Question" : "4. What does OS stand for? ",
+    "Answer" : "Operating System"
+  },
+
+  "q4" : {
+    "Question" : "5. What does BSOD stand for? ",
+    "Answer" : "Blue Screen of Death"
+  },
+
+  "q5" : {
+    "Question" : "6. What does RAM stand for? ",
+    "Answer" : "Random Access Memory"
+  }
+}
+
+bibleQuiz = {
+  "q0" : {
+    "Question" : "1. What does the name Peter mean? ",
+    "Answer" : "Stone"
+  },
+  "q1" : {
+    "Question" : "2. Why did we deserve to be punished and sent to hell? (one word answer) ",
+    "Answer" : "Sin"
+  },
+  "q2" : {
+    "Question" : "3. What is the free gift that Jesus Christ gives us? ",
+    "Answer" : "Salvation"
+  },
+  "q3" : {
+    "Question" : "4. Who was the first martyr for Christ? ",
+    "Answer" : "Stephen"
+  },
+  "q4" : {
+    "Question" : "5. What was Saul's name changed to? ",
+    "Answer" : "Paul"
+  },
+  "q5" : {
+    "Question" : "6. After how many days after Jesus' crucifiction did He rise from the dead? ",
+    "Answer" : "3 days"
+  }
+}
+
+#Defines a empty variable and then calls the function "instructions"
+showingInstructions = ""
+instructions(showingInstructions)
+
+
+#validates the input so that spelling is correct for the quiz you play
+userchoice = validateInput("Do you want to play the HARDWAREQUIZ or the BIBLEQUIZ? ", ['HARDWAREQUIZ', 'BIBLEQUIZ'])
+
+#If this quiz then calls the function and pulls the dictionary for hardware within it
+if (userchoice == 'HARDWAREQUIZ'):
+
+  playerLives, playerPoints = inputQuestions(hardwareQuiz, playerLives, playerPoints)
+
+else:
+  playerLives, playerPoints = inputQuestions(bibleQuiz, playerLives, playerPoints)
+
+endDecision(playerLives, playerPoints)
